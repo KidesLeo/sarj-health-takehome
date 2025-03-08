@@ -14,30 +14,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const relativeUploadDir = `/uploads/${Date.now()}`;
-  const uploadDir = join(process.cwd(), "public", relativeUploadDir);
-
   try {
-    await stat(uploadDir);
-  } catch (e: any) {
-    if (e.code === "ENOENT") {
-      await mkdir(uploadDir, { recursive: true });
-    } else {
-      console.error(
-        "Error while trying to create directory when uploading a file\n",
-        e,
-      );
-      return NextResponse.json(
-        { error: "Something went wrong." },
-        { status: 500 },
-      );
-    }
-  }
-
-  try {
-    const filename = file.name;
-    // await writeFile(`${uploadDir}/${filename}`, buffer);
     const woundAssessment = generateRandomWound();
 
     return NextResponse.json(woundAssessment);
