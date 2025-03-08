@@ -99,7 +99,9 @@ export default function ImageUploader({
 
                   {!preview && (
                     <img
-                      src={"http://localhost:3000/assess-wound-image.gif"}
+                      src={
+                        process.env.NEXT_PUBLIC_URL + "/assess-wound-image.gif"
+                      }
                       alt="Uploaded image"
                       className={`-my-10 rounded-lg transition-opacity duration-500 ${
                         form.formState.isSubmitting

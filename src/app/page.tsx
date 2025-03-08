@@ -13,7 +13,7 @@ export default function Page() {
         >
           <div>AI Wound Analysis</div>
           <img
-            src={"http://localhost:3000/assess-wound-image.gif"}
+            src={process.env.NEXT_PUBLIC_URL + "/assess-wound-image.gif"}
             alt="Assess wound"
             className="-my-10 w-32 rounded-lg transition-opacity duration-500"
             width={100}
