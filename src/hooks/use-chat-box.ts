@@ -76,7 +76,6 @@ export const useChatBox = ({ careInstructions }: IChatBox) => {
         const chunkText = decoder.decode(value, { stream: true });
         streamText += chunkText;
         setCurrentResponse(streamText);
-        console.log("Chunk received:", chunkText);
       }
 
       updateChatHistory({
@@ -85,7 +84,6 @@ export const useChatBox = ({ careInstructions }: IChatBox) => {
       });
 
       setCurrentResponse("");
-      console.log("Full Stream Text:", streamText);
     } catch (error) {
       console.error("Error fetching stream:", error);
     } finally {
