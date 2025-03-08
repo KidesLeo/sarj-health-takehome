@@ -1,10 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 
-export const useStreamedText = ({ text }: { text: string }) => {
+export const useStreamedText = ({
+  text,
+  duration,
+}: {
+  text: string;
+  duration?: number;
+}) => {
   const [displayedText, setDisplayedText] = useState("");
   const [index, setIndex] = useState(0);
   const textEndRef = useRef<null | HTMLDivElement>(null);
-
+  const [done, setDone] = useState(false);
   const scrollToBottom = () => {
     textEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -16,21 +22,22 @@ export const useStreamedText = ({ text }: { text: string }) => {
     }
 
     if (index < text.length) {
+      setDone(false);
       const timeout = setTimeout(
         () => {
           setDisplayedText((prev) => prev + text[index]);
           setIndex(index + 1);
         },
-        text[index] === " " ? 8 : 5,
+        duration || text[index] === " " ? 8 : 5,
       );
 
       return () => clearTimeout(timeout);
-    }
+    } else setDone(true);
   }, [index, text]);
 
   useEffect(() => {
     text.length > 0 && scrollToBottom();
   }, [text]);
 
-  return { displayedText, textEndRef };
+  return { displayedText, textEndRef, done };
 };

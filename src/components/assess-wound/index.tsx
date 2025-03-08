@@ -14,7 +14,7 @@ export default function AssessWound() {
   } = useAssessWound();
 
   return (
-    <div className="flex w-full flex-col items-center justify-between">
+    <div className="flex w-full flex-col items-center justify-between pb-20">
       <div className="mb-20 flex w-full flex-col items-center justify-center gap-14 transition md:flex-row">
         <div className="w-full max-w-fit">
           <ImageUploader processWoundAssessment={processWoundAssessment} />

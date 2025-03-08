@@ -36,7 +36,9 @@ export const useAssessWound = () => {
       while (true) {
         const { value, done } = await reader.read();
 
-        if (done) break;
+        if (done) {
+          break;
+        }
 
         const chunkText = decoder.decode(value, { stream: true });
         streamText += chunkText;
