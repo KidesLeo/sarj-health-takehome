@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { WoundAssessment } from "@/types/WoundAssessment";
+import { type WoundAssessment } from "@/types/WoundAssessment";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "../ui/progress";
 export interface IAssessmentResult {
@@ -12,7 +12,7 @@ export default function AssessmentResult({
 }: IAssessmentResult) {
   const {
     location,
-    assessment: { estimated_healing_weeks, risk_level, requires_debridement },
+    assessment: { estimatedHealingWeeks, riskLevel, requiresDebridement },
     status,
     tissue,
     measurements,
@@ -30,9 +30,7 @@ export default function AssessmentResult({
       <CardHeader>
         <CardTitle className="flex justify-between">
           Wound Assessment{" "}
-          <Badge className={`${riskColors[risk_level]}`}>
-            {risk_level} risk
-          </Badge>
+          <Badge className={`${riskColors[riskLevel]}`}>{riskLevel} risk</Badge>
         </CardTitle>
         <p className="text-sm text-gray-500">
           {location.side.toUpperCase()} {location.site.toUpperCase()}
@@ -74,7 +72,7 @@ export default function AssessmentResult({
         {/* Estimated Healing Time */}
         <div className="flex justify-between text-sm">
           <span>Estimated Healing Time:</span>
-          <span className="font-medium">{estimated_healing_weeks} weeks</span>
+          <span className="font-medium">{estimatedHealingWeeks} weeks</span>
         </div>
 
         {/* Pain & Infection */}
@@ -101,9 +99,9 @@ export default function AssessmentResult({
         <div className="flex justify-between text-sm">
           <span>Requires Debridement:</span>
           <span
-            className={`font-medium ${requires_debridement ? "text-red-500" : "text-green-500"}`}
+            className={`font-medium ${requiresDebridement ? "text-red-500" : "text-green-500"}`}
           >
-            {requires_debridement ? "Yes" : "No"}
+            {requiresDebridement ? "Yes" : "No"}
           </span>
         </div>
       </CardContent>

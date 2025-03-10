@@ -1,8 +1,5 @@
 import { genAI, safetySettings } from "@/lib/gemini";
-import {
-  WoundAssessment,
-  WoundAssessmentSchema,
-} from "@/types/WoundAssessment";
+import { WoundAssessmentSchema } from "@/types/WoundAssessment";
 import { NextResponse } from "next/server";
 
 const systemContext = `You are a wound care specialist assistant providing personalized care instructions.
@@ -81,39 +78,45 @@ Avoid:
 `;
 
 export async function POST(request: Request) {
-  try {
-    const parsedData: WoundAssessment = WoundAssessmentSchema.parse(
-      await request.json(),
+  const { data: parsedData, error } = WoundAssessmentSchema.safeParse(
+    await request.json(),
+  );
+
+  if (error)
+    return NextResponse.json(
+      { error: "Invalid wound assessment data." },
+      { status: 400 },
     );
 
-    const woundDetails = `
-      Wound Location: ${parsedData.location.site || "Unknown"}, ${parsedData.location.side || "Unknown"}
-      Risk Level: ${parsedData.assessment.risk_level}
-      Healing Status: ${parsedData.status.healing}
-      Infection: ${parsedData.status.infection ? "Yes" : "No"}
-      Pain Level: ${parsedData.status.pain}/10
-      Exudate Level: ${parsedData.status.exudate}
-      Estimated Healing Time: ${parsedData.assessment.estimated_healing_weeks} weeks
-      Requires Debridement: ${parsedData.assessment.requires_debridement ? "Yes" : "No"}
-    `;
+  const woundDetails = `
+  Wound Location: ${parsedData.location.site || "Unknown"}, ${parsedData.location.side || "Unknown"}
+  Risk Level: ${parsedData.assessment.riskLevel}
+  Healing Status: ${parsedData.status.healing}
+  Infection: ${parsedData.status.infection ? "Yes" : "No"}
+  Pain Level: ${parsedData.status.pain}/10
+  Exudate Level: ${parsedData.status.exudate}
+  Estimated Healing Time: ${parsedData.assessment.estimatedHealingWeeks} weeks
+  Requires Debridement: ${parsedData.assessment.requiresDebridement ? "Yes" : "No"}
+  `;
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-    const generationConfig = {
-      maxOutputTokens: 2000,
-      temperature: 0.7,
-      topP: 0.8,
-      topK: 40,
-      presencePenalty: 0.6,
-      frequencyPenalty: 0.3,
-    };
+  const generationConfig = {
+    maxOutputTokens: 2000,
+    temperature: 0.7,
+    topP: 0.8,
+    topK: 40,
+    presencePenalty: 0.6,
+    frequencyPenalty: 0.3,
+  };
 
-    const chatSession = model.startChat({
-      history: [],
-      generationConfig,
-      safetySettings,
-    });
+  const chatSession = model.startChat({
+    history: [],
+    generationConfig,
+    safetySettings,
+  });
 
+  try {
     const { stream: upstreamResponse } = await chatSession.sendMessageStream(
       prompt(woundDetails),
     );
@@ -138,12 +141,8 @@ export async function POST(request: Request) {
     return new NextResponse(stream, {
       headers: { "Content-Type": "text/event-stream" },
     });
-    // return NextResponse.json({ careInstructions });
   } catch (error) {
     console.error("Error processing request:", error);
-    return NextResponse.json(
-      { error: "Invalid input or AI request failed." },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "AI request failed." }, { status: 400 });
   }
 }

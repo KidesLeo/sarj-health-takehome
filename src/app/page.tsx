@@ -1,5 +1,6 @@
 import { AudioLines } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 export default function Page() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-start gap-8 bg-gradient-to-r p-8 md:p-12">
@@ -12,7 +13,7 @@ export default function Page() {
           className="flex transform flex-row rounded-lg px-8 py-4 text-4xl font-semibold transition duration-300 ease-in-out hover:scale-105"
         >
           <div>AI Wound Analysis</div>
-          <img
+          <Image
             src={process.env.NEXT_PUBLIC_URL + "/assess-wound-image.gif"}
             alt="Assess wound"
             className="-my-10 w-32 rounded-lg transition-opacity duration-500"

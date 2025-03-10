@@ -21,7 +21,7 @@ export default function TranscribeNote() {
   } = useTranscribeNote();
 
   if (!browserSupport) {
-    return <span>Browser doesn't support speech recognition.</span>;
+    return <span>Browser doesn&apos;t support speech recognition.</span>;
   }
 
   return (

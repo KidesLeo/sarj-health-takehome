@@ -8,7 +8,7 @@ import {
   StyleSheet,
   PDFViewer,
 } from "@react-pdf/renderer";
-import { ClinicalNote } from "@/types/ClinicalNote";
+import { type ClinicalNote } from "@/types/ClinicalNote";
 
 const getCurrentDateTime = () => {
   const now = new Date();
@@ -92,7 +92,7 @@ export const ClinicalNotePdfDocument = ({
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Chief Complaint</Text>
           <Text style={styles.sectionContent}>
-            {clinicalNote.chief_complaint}
+            {clinicalNote.chiefComplaint}
           </Text>
         </View>
 
@@ -118,7 +118,7 @@ export const ClinicalNotePdfDocument = ({
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Treatment Plan</Text>
           <Text style={styles.sectionContent}>
-            {clinicalNote.treatment_plan}
+            {clinicalNote.treatmentPlan}
           </Text>
         </View>
 

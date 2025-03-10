@@ -18,7 +18,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 // This is sample data.
@@ -45,11 +44,6 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const pathname = usePathname();
-  const url = pathname
-    ? pathname.split("/")[pathname.split("/").length - 1]
-    : "";
-
   const { open } = useSidebar();
 
   return (
@@ -65,18 +59,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {data.navMain.map((item) => (
-                <SidebarMenuItem key={item.title}>
+              {data.navMain.map(({ title, url, icon: ItemIcon }) => (
+                <SidebarMenuItem key={title}>
                   <SidebarMenuButton
                     asChild
                     className={cn(
                       "my-1 text-base",
-                      url === item.url && "text-sidebar-accent-foreground",
+                      url === url && "text-sidebar-accent-foreground",
                     )}
                   >
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
+                    <a href={url}>
+                      <ItemIcon />
+                      <span>{title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

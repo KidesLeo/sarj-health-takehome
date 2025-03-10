@@ -3,16 +3,16 @@ import "regenerator-runtime/runtime";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import { ClinicalNote, ClinicalNoteSchema } from "@/types/ClinicalNote";
+import { type ClinicalNote, ClinicalNoteSchema } from "@/types/ClinicalNote";
 import { useEffect, useState } from "react";
 
 export const useTranscribeNote = () => {
   const [note, setNote] = useState<ClinicalNote>({
-    chief_complaint: "",
+    chiefComplaint: "",
     diagnosis: "",
     examination: "",
     history: "",
-    treatment_plan: "",
+    treatmentPlan: "",
   });
   const [showReport, setShowReport] = useState<boolean>();
   const [isListening, setIsListening] = useState<boolean>(false);
@@ -25,11 +25,7 @@ export const useTranscribeNote = () => {
   } = useSpeechRecognition();
 
   useEffect(() => {
-    if (!browserSupportsSpeechRecognition) {
-      setBrowserSupport(false);
-    } else {
-      setBrowserSupport(true);
-    }
+    setBrowserSupport(browserSupportsSpeechRecognition);
   }, [browserSupportsSpeechRecognition]);
 
   const startTranscribing = async () => {
@@ -57,9 +53,8 @@ export const useTranscribeNote = () => {
         throw new Error("Failed to generate clinical note");
       }
 
-      const data = await response.json();
+      const note = ClinicalNoteSchema.parse(await response.json());
 
-      const note = ClinicalNoteSchema.parse(data);
       setNote(note);
       setShowReport(true);
       setIsReportLoading(false);
@@ -67,18 +62,15 @@ export const useTranscribeNote = () => {
       console.error("Error:", error);
     }
   };
-  const resetTranscript = () => {
-    reset();
-  };
-
+  const resetTranscript: () => void = reset;
   const cancelReport = () => {
     resetTranscript();
     setNote({
-      chief_complaint: "",
+      chiefComplaint: "",
       diagnosis: "",
       examination: "",
       history: "",
-      treatment_plan: "",
+      treatmentPlan: "",
     });
     setShowReport(false);
   };

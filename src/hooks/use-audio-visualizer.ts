@@ -6,7 +6,7 @@ Heavily based on https://github.com/Anurag-Kochar-1/Shadcn-UI-Audio-Recorder-Wit
 
 import { useState, useMemo, useRef, useEffect } from "react";
 
-import { IAudioRecorderWithVisualizer } from "@/components/note/audio-visualizer";
+import type { IAudioRecorderWithVisualizer } from "@/components/note/audio-visualizer";
 
 let recorder: MediaRecorder;
 let recordingChunks: BlobPart[] = [];
@@ -54,7 +54,7 @@ export const useAudioVisualizer = ({
     audioContext: null,
   });
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<any>(null);
+  const animationRef = useRef<number | null>(null);
 
   function startRecording() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -93,7 +93,7 @@ export const useAudioVisualizer = ({
           // ============ Recording ============
           recorder = new MediaRecorder(stream);
           recorder.start();
-          startTranscribing();
+          void startTranscribing();
 
           recorder.ondataavailable = (e) => {
             recordingChunks.push(e.data);
@@ -111,7 +111,7 @@ export const useAudioVisualizer = ({
     };
 
     recorder.stop();
-    stopTranscribing();
+    void stopTranscribing();
     resetTranscript();
     setIsRecording(false);
     setTimer(0);
@@ -139,7 +139,7 @@ export const useAudioVisualizer = ({
       stream.getTracks().forEach((track) => track.stop());
     }
     if (audioContext) {
-      audioContext.close();
+      void audioContext.close();
     }
     setIsRecording(false);
     setTimer(0);

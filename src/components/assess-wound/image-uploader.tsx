@@ -1,9 +1,6 @@
 "use client";
 import React from "react";
-
-import { ImagePlus, Loader2, View } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Button } from "../ui/button";
 import {
   Form,
   FormField,
@@ -13,8 +10,9 @@ import {
   FormMessage,
 } from "../ui/form";
 import { useImageUploader } from "@/hooks/use-image-uploader";
-import { WoundAssessment } from "@/types/WoundAssessment";
+import { type WoundAssessment } from "@/types/WoundAssessment";
 import WoundHotSpots from "./hotspots";
+import Image from "next/image";
 
 export interface IImageUploader {
   processWoundAssessment: (assessment: WoundAssessment) => Promise<void>;
@@ -72,7 +70,7 @@ export default function ImageUploader({
                 >
                   {preview && (
                     <div className="relative">
-                      <img
+                      <Image
                         src={preview as string}
                         alt="Uploaded image"
                         className={`h-full max-h-[400px] rounded-lg object-cover transition-opacity duration-500 ${
@@ -98,7 +96,7 @@ export default function ImageUploader({
                   )}
 
                   {!preview && (
-                    <img
+                    <Image
                       src={
                         process.env.NEXT_PUBLIC_URL + "/assess-wound-image.gif"
                       }

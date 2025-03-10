@@ -1,13 +1,14 @@
-import { join } from "path";
-import { stat, mkdir, writeFile } from "fs/promises";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { generateRandomWound } from "@/types/WoundAssessment";
+import { UploadImageFormSchema } from "../../../types/UploadImageForm";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
+  const { error } = UploadImageFormSchema.safeParse({
+    image: formData.get("image"),
+  });
 
-  const file = formData.get("image") as File;
-  if (!file) {
+  if (error) {
     return NextResponse.json(
       { error: "File blob is required." },
       { status: 400 },

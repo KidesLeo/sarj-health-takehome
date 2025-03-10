@@ -53,7 +53,7 @@ export default function ChatBox({ careInstructions }: IChatBox) {
           className="relative flex"
           onSubmit={(e) => {
             e.preventDefault();
-            handleSendMessage();
+            void handleSendMessage();
           }}
         >
           <Input

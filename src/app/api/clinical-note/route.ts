@@ -1,11 +1,13 @@
 import { genAI } from "@/lib/gemini";
 import { ClinicalNoteSchema } from "@/types/ClinicalNote";
-import { GeminiClinicalNoteSchema } from "@/types/GeminiClinicalNote";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
+interface ITranscript {
+  transcript?: string;
+}
 export async function POST(req: Request) {
   try {
-    const { transcript } = await req.json();
+    const { transcript }: ITranscript = await req.json();
 
     if (!transcript) {
       return NextResponse.json(
@@ -21,11 +23,11 @@ export async function POST(req: Request) {
       ---
       Format it strictly in JSON:
       {
-        "chief_complaint": "...",
+        "chiefComplaint": "...",
         "history": "...",
         "examination": "...",
         "diagnosis": "...",
-        "treatment_plan": "..."
+        "treatmentPlan": "..."
       }
 
       If there is no relevant data simply state in the field that there is no relevant data available, do not return null
@@ -39,13 +41,16 @@ export async function POST(req: Request) {
 
     if (jsonMatch && jsonMatch[1]) {
       try {
-        const extractedJson = JSON.parse(jsonMatch[1].trim());
-        const clinicalNote = ClinicalNoteSchema.parse(extractedJson);
+        const clinicalNote = ClinicalNoteSchema.parse(
+          JSON.parse(jsonMatch[1].trim()),
+        );
         return NextResponse.json(clinicalNote, { status: 200 });
       } catch (error) {
         console.error("Invalid JSON:", error);
 
-        return NextResponse.json("Gemini Said NO", { status: 500 });
+        return NextResponse.json("Gemini did not provide formatting", {
+          status: 500,
+        });
       }
     }
   } catch (error) {

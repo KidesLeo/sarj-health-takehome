@@ -10,17 +10,17 @@ Avoid:
 ${careInstructions}
 `;
 export async function POST(request: Request) {
-  const data = await request.json();
+  const { careInstruction, messages, newMessage } = ChatPayloadSchema.parse(
+    await request.json(),
+  );
 
-  const { careInstruction, messages, newMessage } =
-    ChatPayloadSchema.parse(data);
   const model = genAI.getGenerativeModel({
     model: "gemini-2.0-flash",
     generationConfig: {
       responseMimeType: "text/plain",
       // ~ 120 words
       maxOutputTokens: 160,
-      temperature: 0.7,
+      temperature: 0.3,
     },
     safetySettings,
     systemInstruction: instruction(careInstruction),

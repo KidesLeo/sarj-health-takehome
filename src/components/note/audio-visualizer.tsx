@@ -44,12 +44,12 @@ export const AudioRecorderWithVisualizer = (
     >
       {isRecording ? (
         <Timer
-          hourLeft={hourLeft as string}
-          hourRight={hourRight as string}
-          minuteLeft={minuteLeft as string}
-          minuteRight={minuteRight as string}
-          secondLeft={secondLeft as string}
-          secondRight={secondRight as string}
+          hourLeft={hourLeft ?? "0"}
+          hourRight={hourRight ?? "0"}
+          minuteLeft={minuteLeft ?? "0"}
+          minuteRight={minuteRight ?? "0"}
+          secondLeft={secondLeft ?? "0"}
+          secondRight={secondRight ?? "0"}
         />
       ) : null}
       <canvas

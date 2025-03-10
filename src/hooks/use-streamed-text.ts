@@ -33,10 +33,10 @@ export const useStreamedText = ({
 
       return () => clearTimeout(timeout);
     } else setDone(true);
-  }, [index, text]);
+  }, [index, text, duration]);
 
   useEffect(() => {
-    text.length > 0 && scrollToBottom();
+    if (text.length > 0) scrollToBottom();
   }, [text]);
 
   return { displayedText, textEndRef, done };

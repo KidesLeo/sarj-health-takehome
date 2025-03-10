@@ -8,7 +8,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useClinicalNote } from "@/hooks/use-clinical-note";
-import { ClinicalNote } from "@/types/ClinicalNote";
+import { type ClinicalNote } from "@/types/ClinicalNote";
 export interface IClinicalNote {
   note: ClinicalNote;
   setNote: (note: ClinicalNote) => void;
@@ -35,13 +35,13 @@ export default function ClinicalNoteCard(props: IClinicalNote) {
           <h3 className="text-sm font-semibold">Chief Complaint</h3>
           {isEditing ? (
             <Textarea
-              value={note.chief_complaint}
+              value={note.chiefComplaint}
               onChange={(e) =>
-                setNote({ ...note, chief_complaint: e.target.value })
+                setNote({ ...note, chiefComplaint: e.target.value })
               }
             />
           ) : (
-            <p className="text-gray-700">{note.chief_complaint}</p>
+            <p className="text-gray-700">{note.chiefComplaint}</p>
           )}
         </div>
 
@@ -91,13 +91,13 @@ export default function ClinicalNoteCard(props: IClinicalNote) {
           <h3 className="text-sm font-semibold">Treatment Plan</h3>
           {isEditing ? (
             <Textarea
-              value={note.treatment_plan}
+              value={note.treatmentPlan}
               onChange={(e) =>
-                setNote({ ...note, treatment_plan: e.target.value })
+                setNote({ ...note, treatmentPlan: e.target.value })
               }
             />
           ) : (
-            <p className="text-gray-700">{note.treatment_plan}</p>
+            <p className="text-gray-700">{note.treatmentPlan}</p>
           )}
         </div>
       </CardContent>
