@@ -1,4 +1,4 @@
-"use client";
+import { headers } from "next/headers";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -9,13 +9,12 @@ import {
 } from "../ui/breadcrumb";
 import { Separator } from "../ui/separator";
 import { SidebarTrigger } from "../ui/sidebar";
-import { usePathname } from "next/navigation";
 
-export default function Header() {
-  const pathname = usePathname();
-
-  const pageName = pathname
-    ? pathname
+export default async function Header() {
+  const headersList = await headers();
+  const url = headersList.get("x-url") ?? "";
+  const pageName = url
+    ? url
         .split("/")
         .filter(Boolean)
         .pop()
