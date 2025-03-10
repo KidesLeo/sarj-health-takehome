@@ -1,7 +1,10 @@
+import { ClinicalNoteGeminiSchema } from "@/types/ClinicalNoteGeminiSchema";
 import {
   GoogleGenerativeAI,
   HarmBlockThreshold,
   HarmCategory,
+  Schema,
+  SchemaType,
 } from "@google/generative-ai";
 
 if (!process.env.GEMINI_API_KEY) throw new Error("GEMINI_API_KEY NOT SET");
@@ -26,3 +29,7 @@ export const safetySettings = [
     threshold: HarmBlockThreshold.BLOCK_NONE,
   },
 ];
+
+export const geminiFunctionSchema: { [key: string]: Schema } = {
+  ClinicalNoteGeminiSchema,
+};
