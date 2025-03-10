@@ -43,9 +43,9 @@ const WoundAssessmentSchema = z.object({
 
   // Assessment
   assessment: z.object({
-    risk_level: WoundRiskLevelSchema,
-    estimated_healing_weeks: z.number(),
-    requires_debridement: z.boolean(),
+    riskLevel: WoundRiskLevelSchema,
+    estimatedHealingWeeks: z.number(),
+    requiresDebridement: z.boolean(),
   }),
 });
 
@@ -72,9 +72,9 @@ const WOUND_SCENARIOS = {
       healing: "healing_well" as const,
     },
     assessment: {
-      risk_level: "low" as const,
-      estimated_healing_weeks: 2,
-      requires_debridement: false,
+      riskLevel: "low" as const,
+      estimatedHealingWeeks: 2,
+      requiresDebridement: false,
     },
   },
 
@@ -97,9 +97,9 @@ const WOUND_SCENARIOS = {
       healing: "deteriorating" as const,
     },
     assessment: {
-      risk_level: "severe" as const,
-      estimated_healing_weeks: 8,
-      requires_debridement: true,
+      riskLevel: "severe" as const,
+      estimatedHealingWeeks: 8,
+      requiresDebridement: true,
     },
   },
 
@@ -122,9 +122,9 @@ const WOUND_SCENARIOS = {
       healing: "stalled" as const,
     },
     assessment: {
-      risk_level: "moderate" as const,
-      estimated_healing_weeks: 6,
-      requires_debridement: true,
+      riskLevel: "moderate" as const,
+      estimatedHealingWeeks: 6,
+      requiresDebridement: true,
     },
   },
 
@@ -147,9 +147,9 @@ const WOUND_SCENARIOS = {
       healing: "improving" as const,
     },
     assessment: {
-      risk_level: "low" as const,
-      estimated_healing_weeks: 1,
-      requires_debridement: false,
+      riskLevel: "low" as const,
+      estimatedHealingWeeks: 1,
+      requiresDebridement: false,
     },
   },
 } as const;
@@ -215,7 +215,7 @@ function generateRandomWound(
     healingStatus[Math.floor(Math.random() * healingStatus.length)] ??
     "healing_well";
 
-  const risk_level: (typeof riskLevels)[number] =
+  const riskLevel: (typeof riskLevels)[number] =
     riskLevels[Math.floor(Math.random() * riskLevels.length)] ?? "low";
 
   return {
@@ -241,9 +241,9 @@ function generateRandomWound(
       side,
     },
     assessment: {
-      risk_level,
-      estimated_healing_weeks: Math.floor(randomNumber(1, 12)),
-      requires_debridement: Math.random() > 0.5,
+      riskLevel,
+      estimatedHealingWeeks: Math.floor(randomNumber(1, 12)),
+      requiresDebridement: Math.random() > 0.5,
     },
   };
 }

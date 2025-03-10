@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const ChatHistoryMessageSchema = z.object({
-  role: z.union([z.literal("user"), z.literal("model")]),
+  role: z.enum(["user", "model"]),
   message: z.string(),
 });
 
