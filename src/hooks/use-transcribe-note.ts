@@ -7,13 +7,7 @@ import { type ClinicalNote, ClinicalNoteSchema } from "@/types/ClinicalNote";
 import { useEffect, useState } from "react";
 
 export const useTranscribeNote = () => {
-  const [note, setNote] = useState<ClinicalNote>({
-    chiefComplaint: "",
-    diagnosis: "",
-    examination: "",
-    history: "",
-    treatmentPlan: "",
-  });
+  const [note, setNote] = useState<ClinicalNote | undefined>();
   const [showReport, setShowReport] = useState<boolean>();
   const [isListening, setIsListening] = useState<boolean>(false);
   const [browserSupport, setBrowserSupport] = useState<boolean>(true);

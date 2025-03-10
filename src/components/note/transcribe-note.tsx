@@ -52,14 +52,16 @@ export default function TranscribeNote() {
           />
         </>
       ) : (
-        <div className="flex max-h-fit w-full flex-col justify-between gap-10 md:flex-row">
-          <ClinicalNoteCard
-            note={note}
-            setNote={setNote}
-            cancelReport={cancelReport}
-          />{" "}
-          <ClinicalNotePdfDocument clinicalNote={note} />
-        </div>
+        note && (
+          <div className="flex max-h-fit w-full flex-col justify-between gap-10 md:flex-row">
+            <ClinicalNoteCard
+              note={note}
+              setNote={setNote}
+              cancelReport={cancelReport}
+            />{" "}
+            <ClinicalNotePdfDocument clinicalNote={note} />
+          </div>
+        )
       )}
     </div>
   );
