@@ -78,6 +78,8 @@ export default function ImageUploader({
                             ? "opacity-50"
                             : "opacity-100"
                         }`}
+                        width={150}
+                        height={200}
                       />
                       <WoundHotSpots
                         imageUrl={
@@ -107,6 +109,7 @@ export default function ImageUploader({
                           : "opacity-100"
                       }`}
                       width={350}
+                      height={350}
                     />
                   )}
 

@@ -5,6 +5,25 @@
 import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "sarj-health-takehome.vercel.app",
+        port: "",
+        pathname: "/**",
+        search: "",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000",
+        pathname: "/**",
+        search: "",
+      },
+    ],
+  },
+};
 
 export default config;

@@ -24,33 +24,6 @@ export const useImageUploader = ({
     },
   });
 
-  const onSubmit = useCallback(
-    () => async (values: UploadImageForm) => {
-      const formData = new FormData();
-      formData.append("image", values.image);
-
-      try {
-        const response = await fetch("/api/assess-wound", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to upload image");
-        }
-
-        const woundAssessment = WoundAssessmentSchema.parse(
-          await response.json(),
-        );
-        setShowShowAssessButton(false);
-        await processWoundAssessment(woundAssessment);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    },
-    [processWoundAssessment],
-  );
-
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       setShowShowAssessButton(true);
@@ -67,8 +40,32 @@ export const useImageUploader = ({
         form.resetField("image");
       }
     },
-    [form, onSubmit],
+    [form],
   );
+
+  const onSubmit = async (values: UploadImageForm) => {
+    const formData = new FormData();
+    formData.append("image", values.image);
+
+    try {
+      const response = await fetch("/api/assess-wound", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      const woundAssessment = WoundAssessmentSchema.parse(
+        await response.json(),
+      );
+      setShowShowAssessButton(false);
+      await processWoundAssessment(woundAssessment);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const { getRootProps, getInputProps, isDragActive, fileRejections } =
     useDropzone({

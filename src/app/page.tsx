@@ -18,6 +18,7 @@ export default function Page() {
             alt="Assess wound"
             className="-my-10 w-32 rounded-lg transition-opacity duration-500"
             width={100}
+            height={100}
           />
         </Link>
         <div className="relative flex items-center">
